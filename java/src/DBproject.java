@@ -321,7 +321,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e)
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -342,7 +342,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -363,7 +363,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -389,7 +389,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -402,7 +402,7 @@ public class DBproject{
 			System.out.print("Please input Number of Seats on the Plane: ");
 			try
 			{
-				seats = Integer.parseInt(in.readLine());
+				numSeats = Integer.parseInt(in.readLine());
 				if (numSeats <= 0)
 				{
 					System.out.println("Your input is invalid! Number of seats cannot be 0 or negative");
@@ -415,7 +415,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -449,7 +449,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is : " + e);
+				System.out.println("Your input is invalid! Your exception is : " + e.getMessage());
 				continue;
 			}
 		}
@@ -474,7 +474,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -499,7 +499,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -536,7 +536,7 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
 		}
@@ -547,7 +547,7 @@ public class DBproject{
 			try
 			{
 				fullname = in.readLine();
-				if (fullname.length <= 0)
+				if (fullname.length() <= 0)
 				{
 					throw new RuntimeException("Your input is invalid! Technician name cannot be empty or negative");
 				}
@@ -559,20 +559,20 @@ public class DBproject{
 			}
 			catch (Exception e)
 			{
-				System.out.println("Your input is invalid! Your exception is: " + e);
+				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 				continue;
 			}
+		}
 
 			try
 			{
-				query = "INSERT INTO Technician (id, full_name) VALUES (" + ID + ", \'" + fullname + "\');";
+				query = "INSERT INTO Technician (id, full_name) VALUES (" + tID + ", \'" + fullname + "\');";
 				esql.executeUpdate(query);
 			}
 			catch (Exception e)
 			{
 				System.err.println("Query failed: " + e.getMessage());
 			}
-		}
 
 	}
 
