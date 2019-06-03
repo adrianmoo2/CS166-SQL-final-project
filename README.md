@@ -35,9 +35,8 @@
 
 ## Team
 
-* *Name, Organization - role or tasks worked on*
-
-*Add a "contributors" section if you've incorporated pull requests.*
+* Adrian Tran
+* Minwhan Oh
 
 ## Errors and bugs
 
@@ -56,4 +55,4 @@ Your patches are welcome. Here's our suggested workflow:
 
 ## Copyright and attribution
 
-Copyright (c) 2019 Adrian Tran. Released under the [MIT License](https://github.com/datamade/your-repo-here/blob/master/LICENSE).
+Copyright (c) 2019 Adrian Tran. Released under the [MIT License](https://github.com/adrianmoo2/CS166-SQL-final-project/blob/master/LICENSE).
