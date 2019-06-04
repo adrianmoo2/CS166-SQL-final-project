@@ -552,6 +552,10 @@ public static void AddFlight(DBproject esql) {//3
 			try
 			{
 				cost = Integer.parseInt(in.readLine());
+				if (cost <= 0)
+				{
+					throw new RuntimeException("Your input is invalid! Flight cost cannot be 0 or negative");
+				}
 				break;			
 			}
 			catch (Exception e)
@@ -568,6 +572,10 @@ public static void AddFlight(DBproject esql) {//3
 			try
 			{
 				num_sold = Integer.parseInt(in.readLine());
+				if (num_sold < 0)
+				{
+					throw new RuntimeException("Your input is invalid! Num seats sold cannot be zero or negative");
+				}
 				break;			
 			}
 			catch (Exception e)
@@ -584,6 +592,10 @@ public static void AddFlight(DBproject esql) {//3
 			try
 			{
 				num_stops = Integer.parseInt(in.readLine());
+				if (stops < 0)
+				{
+					throw new RuntimeException("Your inputis invalid! Num stops cannot be negative");
+				}
 				break;			
 			}
 			catch (Exception e)
@@ -618,6 +630,10 @@ public static void AddFlight(DBproject esql) {//3
 			{
 				actual_arrival_date = in.readLine();
 				LocalDate localaad = LocalDate.parse(actual_arrival_date, format);
+				if (!actual_arrival_date.isAfter(leaveDate))
+				{
+					throw new RuntimeException("Uh... the arrival cannot be before the departure :)");
+				}
 				break;			
 			}
 			catch (Exception e)
@@ -676,18 +692,15 @@ public static void AddFlight(DBproject esql) {//3
 		}
 		//add departure_airport code
 
-		while (true)
+		try
 		{
-			try
-			{
-				query = "INSERT INTO Flight (fnum, cost, num_sold, num_stops, actual_departure_date, actual_arrival_date, arrival_airport, departure_airport) VALUES (" + fnum + ", \'" + cost + "\', \'" + num_sold + "\', \'" + num_stops + "\', \'" + actual_departure_date + "\', \'" + actual_arrival_date + "\', \'" +  arrival_airport + "\', \'" + departure_airport + "\');";
+			query = "INSERT INTO Flight (fnum, cost, num_sold, num_stops, actual_departure_date, actual_arrival_date, arrival_airport, departure_airport) VALUES (" + fnum + ", \'" + cost + "\', \'" + num_sold + "\', \'" + num_stops + "\', \'" + actual_departure_date + "\', \'" + actual_arrival_date + "\', \'" +  arrival_airport + "\', \'" + departure_airport + "\');";
 
-				esql.executeUpdate(query);
-			}
-			catch (Exception e)
-			{
-				System.err.println("Query failed: " + e.getMessage());
-			}
+			esql.executeUpdate(query);
+		}
+		catch (Exception e)
+		{
+			System.err.println("Query failed: " + e.getMessage());
 		}
 	}
 
@@ -869,7 +882,7 @@ public static void AddFlight(DBproject esql) {//3
 									try
 									{
 										reservationStatus = in.readLine();
-										if(!reservationStatus.equals("W") && !reservationStatus.equals("R") && reservationStatus.equals("C")) {
+										if(!reservationStatus.equals("W") && !reservationStatus.equals("R") && !reservationStatus.equals("C")) {
 											throw new RuntimeException("Your input is invalid! Status can only be W, R, or C");
 										}
 										break;
