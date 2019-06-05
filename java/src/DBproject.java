@@ -10,7 +10,9 @@
  *
  */
 
-
+import java.time.LocalDate;
+import java.lang.Object;
+import java.time.format.DateTimeFormatter;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -592,7 +594,7 @@ public static void AddFlight(DBproject esql) {//3
 			try
 			{
 				num_stops = Integer.parseInt(in.readLine());
-				if (stops < 0)
+				if (num_stops < 0)
 				{
 					throw new RuntimeException("Your inputis invalid! Num stops cannot be negative");
 				}
@@ -630,11 +632,7 @@ public static void AddFlight(DBproject esql) {//3
 			{
 				actual_arrival_date = in.readLine();
 				LocalDate localaad = LocalDate.parse(actual_arrival_date, format);
-				if (!actual_arrival_date.isAfter(leaveDate))
-				{
-					throw new RuntimeException("Uh... the arrival cannot be before the departure :)");
-				}
-				break;			
+				break;
 			}
 			catch (Exception e)
 			{
@@ -761,171 +759,165 @@ public static void AddFlight(DBproject esql) {//3
 
 	public static void BookFlight(DBproject esql) {//5
 		// Given a customer and a flight that he/she wants to book, add a reservation to the DB
-		String customerID;
-		int flightNumber;
-		String userInput;
-		String query;
-		int reservationNum;
-		String reservationStatus;
-
-		while (true)
-		{
-			System.out.print("Please input Customer ID");
-			try
-			{
-				customerID = Integer.parseInt(in.readLine());
-				break;
-			}
-			catch (Exception e)
-			{
-				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-				continue;
-			}
-		}
-
-		while (true)
-		{
-			System.out.print("Please input Flight Number: ");
-			try
-			{
-				flightNumber = Integer.parseInt(in.readLine());
-				break;
-			}
-			catch (Exception e)
-			{
-				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-				continue;
-			}
-		}
-
-		try
-		{
-			query = "SELECT status\nFROM Reservation\nWHERE cid = " + ID + " AND fid = " + flightNumber + ";";
-
-			if(esql.executeQueryAndPrintResult(query) == 0) //reservation doesn't exist
-			{
-				while (true)
-				{
-					System.out.println("Your reservation is not in our database. Would you like to book one? (y/n)");
-					try
-					{
-						userInput = in.readLine();
-						if (userInput.equals("y"))
-						{
-							while (true)
-							{
-								System.out.print("Please input Reservation Number: ");
-								try
-								{
-									reservationNum = Integer.parseInt(in.readLine());
-									break;
-								}
-								catch (Exception e)
-								{
-									System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-								}
-							}
-
-							while (true)
-							{
-								System.out.print("Please input Reservation Status: (W/R/C)");
-								try
-								{
-									reservationStatus = in.readline();
-									if(!reservationStatus.equals("W") && !reservationStatus.equals("R") && reservationStatus.equals("C")) {
-										throw new RuntimeException("Your input is invalid! Status can only be W, R, or C");
-									}
-									break;
-								}
-								catch (Exception e)
-								{
-									System.out.println("Your input is invalid! Your exception is " + e.getMessage());
-								}
-
-								try
-								{
-									query = "INSERT INTO Reservation (rnum, cid, fid, status) VALUES (" + reservationNum + ", " + customerID + ", " + flightNumber + ", \'" + reservationStatus + "\');";
-									esql.executeUpdate(query);
-								}
-								catch (Exception e)
-								{
-									System.out.println("Your input is invalid! Your exception is " + e.getMessage());
-								}
-							}
-						}
-						else if (!userInput.equals("n"))
-						{
-							throw new RuntimeException("Your input is invalid! Please input (y/n) next time");
-						}
-						break;
-					}
-					catch (Exception e)
-					{
-						System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-						continue;
-					}
-				}
-			}
-				else
-				{
-					while (true)
-					{
-						try
-						{
-							System.out.println("We found your reservation! Would you like to update it? (y/n)");
-							userInput = in.readLine();
-							if (userInput.equals("y"))
-							{
-								while (true)
-								{
-									System.out.print("Please input new Reservation Status: " );
-									try
-									{
-										reservationStatus = in.readLine();
-										if(!reservationStatus.equals("W") && !reservationStatus.equals("R") && !reservationStatus.equals("C")) {
-											throw new RuntimeException("Your input is invalid! Status can only be W, R, or C");
-										}
-										break;
-									}
-									catch (Exception e)
-									{
-										System.out.println("Your input is invalid! Your exception is " + e.getMessage());
-										continue;
-									}
-								}
-
-								try
-								{
-									query = "UPDATE Reservation SET status = \'" + reservationStatus + "\' WHERE cid = " + customerID + " AND fid = " + flightNumber + ";";
-									esql.executeUpdate(query);
-								}
-								catch (Exception e)
-								{
-									System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-								}
-							}
-							else if (!userInput.equals("n"))
-							{
-								throw new RuntimeException("Your input is invalid! Please input (y/n) next time");
-							}
-							break;
-						}
-						catch (Exception e)
-						{
-							System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-							continue;
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
-			}
-		}
-
+		int customerID;
+	        int flightNumber;
+        	String userInput;
+	        String query;
+        	int reservationNum;
+        	String reservationStatus = "";
+        while (true)
+        {
+            System.out.print("Please input Customer ID: ");
+            try
+            {
+                customerID = Integer.parseInt(in.readLine());
+                break;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+                continue;
+            }
+        }
+        while (true)
+        {
+            System.out.print("Please input Flight Number: ");
+            try
+            {
+                flightNumber = Integer.parseInt(in.readLine());
+                break;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+                continue;
+            }
+        }
+        try
+        {
+            query = "SELECT status\nFROM Reservation\nWHERE cid = " + customerID + " AND fid = " + flightNumber + ";";
+            if(esql.executeQueryAndPrintResult(query) == 0) //reservation doesn't exist
+            {
+                while (true)
+                {
+                    System.out.println("Your reservation is not in our database. Would you like to book one? (y/n): ");
+                    try
+                    {
+                        userInput = in.readLine();
+                        if (userInput.equals("y"))
+                        {
+                            while (true)
+                            {
+                                System.out.print("Please input Reservation Number: ");
+                                try
+                                {
+                                    reservationNum = Integer.parseInt(in.readLine());
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+                                }
+                            }
+                            while (true)
+                            {
+                                System.out.print("Please input Reservation Status(W/R/C): ");
+                                try
+                                {
+                                    reservationStatus = in.readLine();
+                                    if(!reservationStatus.equals("W") && !reservationStatus.equals("R") && !reservationStatus.equals("C")) {
+                                        throw new RuntimeException("Your input is invalid! Status can only be W, R, or C");
+                                    }
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    System.out.println("Your input is invalid! Your exception is " + e.getMessage());
+                                }
+                                try
+                                {
+                                    query = "INSERT INTO Reservation (rnum, cid, fid, status) VALUES (" + reservationNum + ", " + customerID + ", " + flightNumber + ", \'" + reservationStatus + "\');";
+                                    esql.executeUpdate(query);
+                                }
+                                catch (Exception e)
+                                {
+                                    System.out.println("Your input is invalid! Your exception is " + e.getMessage());
+                                }
+                            }
+                        }
+                        else if (!userInput.equals("n"))
+                        {
+                            throw new RuntimeException("Your input is invalid! Please input (y/n) next time");
+                        }
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+                        continue;
+                    }
+                }
+            }
+                else
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            System.out.println("We found your reservation! Would you like to update it? (y/n)");
+                            userInput = in.readLine();
+                            if (userInput.equals("y"))
+                            {
+                                while (true)
+                                {
+                                    System.out.print("Please input new Reservation Status: " );
+                                    try
+                                    {
+                                        reservationStatus = in.readLine();
+                                        if(!reservationStatus.equals("W") && !reservationStatus.equals("R") && !reservationStatus.equals("C")) {
+                                            throw new RuntimeException("Your input is invalid! Status can only be W, R, or C");
+                                        }
+                                        break;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        System.out.println("Your input is invalid! Your exception is " + e.getMessage());
+                                        continue;
+                                    }
+                                }
+                                try
+                                {
+                                    query = "UPDATE Reservation SET status = \'" + reservationStatus + "\' WHERE cid = " + customerID + " AND fid = " + flightNumber + ";";
+                                    esql.executeUpdate(query);
+                                }
+                                catch (Exception e)
+                                {
+                                    System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+                                }
+                            }
+                            else if (!userInput.equals("n"))
+                            {
+                                throw new RuntimeException("Your input is invalid! Please input (y/n) next time");
+                            }
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+                            continue;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
+            }
+	}
 	public static void ListNumberOfAvailableSeats(DBproject esql) {//6
-		// For flight number, find the number of availalbe seats (i.e. total plane capacity minus num_sold from flight)	//without index 8.844ms
+		// For flight number, find the number of availalbe seats (i.e. total plane capacity minus num_sold from flight)	
+		//without indexing 8.844ms 
+		//with indexing 10.179ms
 		String query;
 		
 		try
@@ -940,9 +932,10 @@ public static void AddFlight(DBproject esql) {//3
 		}
 	}
 
-public static void ListsTotalNumberOfRepairsPerPlane(DBproject esql) {//7
+	public static void ListsTotalNumberOfRepairsPerPlane(DBproject esql) {//7
 		// Count number of repairs per planes and list them in descending order
-		//without index 1.377ms
+		//without indexing 1.377ms
+		//with indexing 1.347ms
 		String query;
 		
 		try
@@ -952,13 +945,14 @@ public static void ListsTotalNumberOfRepairsPerPlane(DBproject esql) {//7
 		}
 		catch (Exception e)
 		{
-			System.err.println("Query failed: " + e.getMessage());
+			System.err.println("Query failed: " + e);
 		}
 	}
 
-
 	public static void ListTotalNumberOfRepairsPerYear(DBproject esql) {//8
 		// Count repairs per year and list them in ascending order
+		//without indexing 1.134ms
+		//with indexing 1.053ms
 		String query;
 
 		try
@@ -968,51 +962,63 @@ public static void ListsTotalNumberOfRepairsPerPlane(DBproject esql) {//7
 		}
 		catch (Exception e)
 		{
-			System.err.println("Query failed: " + e.getMessage());
+			System.err.println("Query failed: " + e);
 		}
 	}
 	
 	public static void FindPassengersCountWithStatus(DBproject esql) {//9
 		// Find how many passengers there are with a status (i.e. W,C,R) and list that number.
-		    String status;
+		//with indexing  2.343ms
+		//without indexing 4.438ms
+	    String status;
 	    int flightNum;
 	    String query;
 
-	    while (true){
+	    while (true)
+	    {
 		System.out.println("Please input Passenger Status (W, C, R): ");
-		try{
+		try
+		{
 		    status = in.readLine();
-		    if (!status.equals("W") && !status.equals("C") && !status.equals("R")){
+		    if (!status.equals("W") && !status.equals("C") && !status.equals("R"))
+		    {
 			throw new RuntimeException("Your input is invalid! Please input W, C, or R");
 		    }
 		    break;
 		}
-		catch (Exception e){
+		catch (Exception e)
+		{
 		    System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 		    continue;
 		}
 	    }
 	    
 
-	    while (true){
+	    while (true)
+	    {
 		System.out.println("Please input flight number:  ");
-		try{
+		try
+		{
 		    flightNum = Integer.parseInt(in.readLine());
 		    break;
 		}
-		catch (Exception e){
+		catch (Exception e)
+		{
 		    System.out.println("Your input is invalid! Your exception is: " + e.getMessage());
 		    continue;
 		}
 	    }
 	    
-	    while (true){
-		try {
+	    while (true)
+	    {
+		try 
+		{
 		    query = "SELECT COUNT(*)\nFROM Reservation\nWHERE fid = " + flightNum + " AND status = \'" + status + "\';";
 		    esql.executeQueryAndPrintResult(query);
 		    break;
 		}
-		catch (Exception e){
+		catch (Exception e)
+		{
 		    System.out.println("Your input is invalid! Your exception is " + e.getMessage());
 		}
 	    }
