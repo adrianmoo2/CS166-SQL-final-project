@@ -1,6 +1,6 @@
 # CS166-SQL-final-project
 
-*Short description of your project, in one or two sentences.* 
+Final Projet for CS166 at UCR during Spring 2019. Was a fun quarter :)
 
 ## Languages / Frameworks used
 
