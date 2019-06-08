@@ -62,6 +62,7 @@
 * **List total number of repairs per year in ascending order**: Return the years with the number of repairs made in those years in ascending order of number of repairs per year
 * **Find total number of passengers with a given status**: For a given flight and passenger status, return the number of passengers with the given status.
 * **Physical DB Design** (DB performance tuning indexes)
+* **Edge Case and Exception Handling**
 
 ## DB Performance
 
