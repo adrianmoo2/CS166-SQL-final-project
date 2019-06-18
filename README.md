@@ -73,6 +73,22 @@ Final Projet for CS166 at UCR during Spring 2019. Was a fun quarter :)
 
 ## Demo
 
+**Adding a plane**
+
+![image](https://user-images.githubusercontent.com/14877762/59725147-70581280-91e1-11e9-9278-2235341c1da0.png)
+
+**Adding a pilot**
+
+![image](https://user-images.githubusercontent.com/14877762/59725156-7ea62e80-91e1-11e9-9968-46180ac96da1.png)
+
+**Adding a flight (Flight number not duplicated)**
+
+![image](https://user-images.githubusercontent.com/14877762/59725182-954c8580-91e1-11e9-98e5-ed4703ddd88c.png)
+
+**Adding a Technician**
+
+![image](https://user-images.githubusercontent.com/14877762/59725200-a4cbce80-91e1-11e9-964f-470009e1c926.png)
+
 **Booking a flight, and customer ID is found in the database**
 
 ![image](https://user-images.githubusercontent.com/14877762/59150571-86dcbd80-89da-11e9-827d-caadd1e50b49.png)
@@ -80,6 +96,15 @@ Final Projet for CS166 at UCR during Spring 2019. Was a fun quarter :)
 **Total number of seats available for a given flight**
 
 ![image](https://user-images.githubusercontent.com/14877762/59150583-affd4e00-89da-11e9-8093-8ac9c9e82820.png)
+
+**Total number of repairs per year in ascending order**
+
+![image](https://user-images.githubusercontent.com/14877762/59725223-bd3be900-91e1-11e9-91c0-01de2bd65eef.png)
+
+**Find total number of passengers with a given status**
+
+![image](https://user-images.githubusercontent.com/14877762/59725248-d47ad680-91e1-11e9-9757-593be690b6a5.png)
+
 
 ## Team
 
